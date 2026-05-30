@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+
+# Virtual environments
+.venv/
+venv/
+
+# uv
+.uv/
+
+# IDE
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Testing / coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Terraform
+*.tfvars
+*.tfstate
+*.tfstate.backup
+.terraform/
+
+# Data files — must never be committed accidentally
+*.csv
+*.dbf
+*.shp
+*.shx
+*.prj
+*.parquet

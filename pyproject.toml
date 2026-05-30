@@ -1,0 +1,41 @@
+[project]
+name = "kirkman-etl"
+version = "0.1.0"
+description = "A domain-agnostic ETL framework for ingesting and normalizing US county-level parcel data and state-level oil & gas regulatory data."
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "click>=8.4.1",
+    "openpyxl>=3.1.5",
+    "pandas>=3.0.3",
+    "pyarrow>=24.0.0",
+    "pydantic>=2.0",
+    "sqlalchemy>=2.0.50",
+]
+
+[project.scripts]
+kirkman = "kirkman_etl.cli:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/kirkman_etl"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py313"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["E501"]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.3",
+    "pytest-cov>=7.1.0",
+    "ruff>=0.15.15",
+]
