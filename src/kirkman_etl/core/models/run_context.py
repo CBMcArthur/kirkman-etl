@@ -13,6 +13,8 @@ from uuid import uuid4
 
 from pydantic import BaseModel, ConfigDict, Field, computed_field, model_validator
 
+from kirkman_etl.core.models.pipeline_config import StageName
+
 
 class StageStatus(StrEnum):
     """Outcome of a single pipeline stage's execution."""
@@ -27,7 +29,7 @@ class StageRecord(BaseModel):
 
     model_config = ConfigDict(frozen=True)
 
-    stage_name: str = Field(min_length=1)
+    stage_name: StageName = Field(...)
     status: StageStatus
     started_at: datetime
     completed_at: datetime

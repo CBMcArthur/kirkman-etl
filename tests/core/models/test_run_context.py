@@ -90,3 +90,14 @@ def test_stage_record_duration_seconds():
     record = _stage_record(started_at=started_at, completed_at=started_at + timedelta(seconds=5))
 
     assert record.duration_seconds == 5.0
+
+
+def test_stage_record_accepts_validate_stage_name():
+    record = _stage_record(stage_name="validate")
+
+    assert record.stage_name == "validate"
+
+
+def test_stage_record_invalid_stage_name_raises():
+    with pytest.raises(ValidationError):
+        _stage_record(stage_name="not-a-real-stage")

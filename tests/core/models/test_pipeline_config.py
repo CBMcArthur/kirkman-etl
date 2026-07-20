@@ -13,12 +13,14 @@ def test_constructs_with_valid_input():
         pipeline_name="synthetic-pipeline",
         source_id="county-42",
         output_path=Path("/tmp/output"),
+        raw_output_path=Path("/tmp/raw"),
     )
 
     assert config.pipeline_name == "synthetic-pipeline"
     assert config.source_id == "county-42"
     assert config.enabled_stages == ["extract", "transform", "load"]
     assert config.output_path == Path("/tmp/output")
+    assert config.raw_output_path == Path("/tmp/raw")
 
 
 def test_missing_required_fields_raises():
@@ -32,6 +34,7 @@ def test_custom_enabled_stages():
         source_id="county-42",
         enabled_stages=["extract"],
         output_path=Path("/tmp/output"),
+        raw_output_path=Path("/tmp/raw"),
     )
 
     assert config.enabled_stages == ["extract"]
@@ -44,6 +47,7 @@ def test_invalid_stage_name_raises():
             source_id="county-42",
             enabled_stages=["extract", "not-a-real-stage"],
             output_path=Path("/tmp/output"),
+            raw_output_path=Path("/tmp/raw"),
         )
 
 
@@ -54,4 +58,26 @@ def test_empty_enabled_stages_raises():
             source_id="county-42",
             enabled_stages=[],
             output_path=Path("/tmp/output"),
+            raw_output_path=Path("/tmp/raw"),
         )
+
+
+def test_missing_raw_output_path_raises():
+    with pytest.raises(ValidationError):
+        PipelineConfig(
+            pipeline_name="synthetic-pipeline",
+            source_id="county-42",
+            output_path=Path("/tmp/output"),
+        )
+
+
+def test_validate_stage_accepted_in_enabled_stages():
+    config = PipelineConfig(
+        pipeline_name="synthetic-pipeline",
+        source_id="county-42",
+        enabled_stages=["extract", "validate"],
+        output_path=Path("/tmp/output"),
+        raw_output_path=Path("/tmp/raw"),
+    )
+
+    assert config.enabled_stages == ["extract", "validate"]
